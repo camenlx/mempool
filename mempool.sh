@@ -1,8 +1,9 @@
 #!/bin/bash
 
-DESTDIR=/dev/shm/mempool-btc
-BITCOINCLI=/home/bitcoin/bin/bitcoin-cli
-MEMPOOLHOME=/home/mempool/mempool
+DESTDIR=/dev/shm/mempool-zoc
+ZOCCLI=$HOME/zeroone/zeroone-cli
+DATADIR=$HOME/.zeroonetest
+MEMPOOLHOME=$HOME/mempool
 TMPFILE=$DESTDIR/rawdump.txt
 
 export DESTDIR MEMPOOLHOME
@@ -12,7 +13,7 @@ cd $MEMPOOLHOME
 if ! mkdir $DESTDIR/LOCK 2>/dev/null; then
   exit
 fi
-$BITCOINCLI getrawmempool true > $TMPFILE
+$ZOCCLI -datadir=$DATADIR getrawmempool true > $TMPFILE
 python3 mempool_sql.py < $TMPFILE
 rmdir $DESTDIR/LOCK
 
